@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="70" tileheight="70" nextobjectid="49">
+ <tileset firstgid="1" name="tiles_spritesheet" tilewidth="70" tileheight="70" spacing="2" tilecount="156" columns="12">
+  <image source="tiles_spritesheet.png" trans="ff00ff" width="914" height="936"/>
+ </tileset>
+ <layer name="background" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6Hzb6Fm52IvSFg1VVXVhwfe2eRw
+  </data>
+ </layer>
+ <layer name="ground" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUEANmUqCPEKbETbQye6gCWvqfXmE6UuOOFoCYfEFK3iEnz43mzZEJyC2bKS3XR+sE+oLWgXYADkBMOhpIDADFcEel
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="12" x="1190" y="350" width="630" height="70"/>
+  <object id="13" x="2030" y="490" width="280" height="70"/>
+  <object id="14" x="2660" y="560" width="140" height="70"/>
+  <object id="15" x="840" y="560" width="140" height="70"/>
+  <object id="16" x="70" y="770" width="420" height="70"/>
+  <object id="17" x="700" y="770" width="420" height="70"/>
+  <object id="18" x="1470" y="770" width="630" height="70"/>
+  <object id="19" x="2380" y="770" width="420" height="70"/>
+  <object id="20" x="0" y="1050" width="560" height="70"/>
+  <object id="21" x="980" y="1050" width="630" height="70"/>
+  <object id="22" x="2100" y="1050" width="560" height="70"/>
+  <object id="30" x="0" y="1330" width="2800" height="70"/>
+  <object id="41" x="210" y="350" width="70" height="70"/>
+  <object id="43" x="0" y="420" width="630" height="70"/>
+  <object id="47" x="140" y="1260" width="70" height="70"/>
+ </objectgroup>
+</map>
