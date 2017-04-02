@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.krzych.wordcharger.WordCharger;
 import com.krzych.wordcharger.scenes.Hud;
+import com.krzych.wordcharger.sprites.BatteryHero;
 
 /**
  * Created by Krzysiek on 2017-03-14.
@@ -43,6 +44,8 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+    private BatteryHero player; // desc
+
     public PlayScreen(WordCharger game) {
         this.game = game;
         img = new Texture("badlogic.jpg");
@@ -58,6 +61,9 @@ public class PlayScreen implements Screen {
         camera.position.set(view.getWorldWidth() / 2, view.getWorldHeight() / 2, 0);
 
         world = new World(new Vector2(0, 0), true);
+
+        player = new BatteryHero(world); // desc
+
         b2dr = new Box2DDebugRenderer();
 
         BodyDef bdef = new BodyDef();
@@ -87,6 +93,8 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
         handleInput(dt);
+
+//        world.step(1 / 60f, 6, 2); // desc
 
         camera.update();
     }
@@ -119,7 +127,7 @@ public class PlayScreen implements Screen {
         renderer.render();
         renderer.setView(camera);
 
-        b2dr.render(world, camera.combined);
+        b2dr.render(world, camera.combined.scale(1 / 1.3f, 1 / 1.3f, 0));
     }
 
     @Override
