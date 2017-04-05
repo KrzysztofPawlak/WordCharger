@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.krzych.wordcharger.WordCharger;
 
 /**
  * Created by Krzysiek on 2017-04-02.
@@ -22,13 +23,13 @@ public class BatteryHero extends Sprite {
 
     public void defineBatteryHero() {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(70, 140);
+        bodyDef.position.set(70 / WordCharger.PPM, 140 / WordCharger.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         b2dBody = world.createBody(bodyDef); // desc
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(35);
+        shape.setRadius(35 / WordCharger.PPM);
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef);

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.krzych.wordcharger.WordCharger;
 
 /**
  * Created by Krzysiek on 2017-03-17.
@@ -27,7 +28,7 @@ public class Hud {
     public Hud(SpriteBatch sb) {
         score = 0;
 
-        viewport = new FitViewport(800, 480, new OrthographicCamera());
+        viewport = new FitViewport(WordCharger.V_WIDTH, WordCharger.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();

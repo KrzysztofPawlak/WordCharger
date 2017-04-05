@@ -50,19 +50,19 @@ public class PlayScreen implements Screen {
         this.game = game;
         img = new Texture("badlogic.jpg");
         camera = new OrthographicCamera();
-        view = new FitViewport(800, 480, camera); // TODO more universal
+        view = new FitViewport(WordCharger.V_WIDTH / WordCharger.PPM, WordCharger.V_HEIGHT / WordCharger.PPM, camera);
 
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();
         map = maploader.load("untitled.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / 1.3f);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / 1.3f * (1 / WordCharger.PPM));
 
         camera.position.set(view.getWorldWidth() / 2, view.getWorldHeight() / 2, 0);
 
-        world = new World(new Vector2(0, 0), true);
+        world = new World(new Vector2(0, -10), true);
 
-        player = new BatteryHero(world); // desc
+        player = new BatteryHero(world);
 
         b2dr = new Box2DDebugRenderer();
 
@@ -71,16 +71,16 @@ public class PlayScreen implements Screen {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() / 2,
-                    rect.getY() + rect.getHeight() / 2);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / WordCharger.PPM,
+                    (rect.getY() + rect.getHeight() / 2) / WordCharger.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            shape.setAsBox(rect.getWidth() / 2 / WordCharger.PPM, rect.getHeight() / 2 / WordCharger.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
@@ -94,23 +94,25 @@ public class PlayScreen implements Screen {
     public void update(float dt) {
         handleInput(dt);
 
-//        world.step(1 / 60f, 6, 2); // desc
+        world.step(1 / 60f, 6, 2);
+
+        camera.position.x = player.b2dBody.getPosition().x;
+        camera.position.y = player.b2dBody.getPosition().y;
 
         camera.update();
+
+        renderer.setView(camera);
     }
 
     public void handleInput(float dt) {
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.position.x += 100 * dt;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && player.b2dBody.getLinearVelocity().x <= 2) {
+            player.b2dBody.applyLinearImpulse(new Vector2(2f, 0), player.b2dBody.getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.position.x -= 100 * dt;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && player.b2dBody.getLinearVelocity().x >= -2) {
+            player.b2dBody.applyLinearImpulse(new Vector2(-2f, 0), player.b2dBody.getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.position.y += 100 * dt;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.position.y -= 100 * dt;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            player.b2dBody.applyLinearImpulse(new Vector2(0, 5f), player.b2dBody.getWorldCenter(), true);
         }
     }
 
