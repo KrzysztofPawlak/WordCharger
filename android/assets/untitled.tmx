@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="70" tileheight="70" nextobjectid="49">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="70" tileheight="70" nextobjectid="56">
  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="70" tileheight="70" spacing="2" tilecount="156" columns="12">
   <image source="tiles_spritesheet.png" trans="ff00ff" width="914" height="936"/>
+ </tileset>
+ <tileset firstgid="157" name="note" tilewidth="70" tileheight="70" spacing="2" tilecount="1" columns="1">
+  <image source="note.png" trans="ff00ff" width="70" height="70"/>
  </tileset>
  <layer name="background" width="40" height="20">
   <data encoding="base64" compression="zlib">
@@ -29,5 +32,17 @@
   <object id="41" x="210" y="350" width="70" height="70"/>
   <object id="43" x="0" y="420" width="630" height="70"/>
   <object id="47" x="140" y="1260" width="70" height="70"/>
+ </objectgroup>
+ <layer name="wordnote" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2B4gLkD7YBRMApGARhQMy+O5utRMApGwVAG5JZhw73sAwCUQgMS
+  </data>
+ </layer>
+ <objectgroup name="wordnote">
+  <object id="51" x="1330" y="280" width="70" height="70"/>
+  <object id="52" x="1750" y="700" width="70" height="70"/>
+  <object id="53" x="1680" y="1260" width="70" height="70"/>
+  <object id="54" x="700" y="1260" width="70" height="70"/>
+  <object id="55" x="420" y="700" width="70" height="70"/>
  </objectgroup>
 </map>
