@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -26,7 +27,9 @@ import com.krzych.wordcharger.sprites.BatteryHero;
 public class PlayScreen implements Screen {
 
     private WordCharger game;
-    Texture img;
+
+    private TextureAtlas atlas;
+    private Texture img;
     private OrthographicCamera camera;
     private Viewport view;
     private Hud hud;
@@ -38,9 +41,11 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
-    private BatteryHero player; // desc
+    private BatteryHero player;
 
     public PlayScreen(WordCharger game) {
+        atlas = new TextureAtlas("battery_enemy.pack");
+
         this.game = game;
         img = new Texture("badlogic.jpg");
         camera = new OrthographicCamera();
@@ -50,14 +55,13 @@ public class PlayScreen implements Screen {
 
         maploader = new TmxMapLoader();
         map = maploader.load("untitled.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / 1.3f * (1 / WordCharger.PPM));
+        renderer = new OrthogonalTiledMapRenderer(map, 0.7f * (1 / WordCharger.PPM)); // TODO
 
         camera.position.set(view.getWorldWidth() / 2, view.getWorldHeight() / 2, 0);
 
         world = new World(new Vector2(0, -10), true);
 
-        player = new BatteryHero(world);
-
+        player = new BatteryHero(world, atlas);
         b2dr = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
@@ -68,13 +72,19 @@ public class PlayScreen implements Screen {
 
     }
 
+    public TextureAtlas getAtlas() {
+        return atlas;
+    }
+
     public void update(float dt) {
         handleInput(dt);
 
         world.step(1 / 60f, 6, 2);
 
-        camera.position.x = player.b2dBody.getPosition().x / 1.3f;
-        camera.position.y = player.b2dBody.getPosition().y / 1.3f;
+        player.update(dt);
+
+        camera.position.x = player.b2dBody.getPosition().x / (1/0.7f);
+        camera.position.y = player.b2dBody.getPosition().y / (1/0.7f);
 
         camera.update();
 
@@ -106,7 +116,12 @@ public class PlayScreen implements Screen {
         renderer.render();
         renderer.setView(camera);
 
-        b2dr.render(world, camera.combined.scale(1 / 1.3f, 1 / 1.3f, 0));
+        b2dr.render(world, camera.combined.scale(0.7f, 0.7f, 0));
+
+        game.batch.setProjectionMatrix(camera.combined.scale(0.7f, 0.7f, 0));
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
     }
 
     @Override
