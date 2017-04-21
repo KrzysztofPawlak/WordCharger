@@ -43,7 +43,7 @@ public class BatteryHero extends Sprite {
 
         // run // TODO
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 1; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             frames.add(new TextureRegion(batteryhero.getTexture(), i * 100, 133, 100, 100));
         }
         heroRun = new Animation(0.1f, frames);
@@ -102,7 +102,6 @@ public class BatteryHero extends Sprite {
         return region;
     }
 
-    // TODO
     public State getState() {
         if (b2dBody.getLinearVelocity().y > 0) {
             return State.JUMPING;
@@ -125,7 +124,12 @@ public class BatteryHero extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(35 / WordCharger.PPM);
 
+        fixtureDef.filter.categoryBits = WordCharger.BATTERY_HERO_BIT;
+        fixtureDef.filter.maskBits = WordCharger.DEFAULT_BIT | WordCharger.WORDNOTE_BIT;
+
         fixtureDef.shape = shape;
-        b2dBody.createFixture(fixtureDef);
+
+        b2dBody.createFixture(fixtureDef).setUserData("hero");
+        fixtureDef.isSensor = true;
     }
 }

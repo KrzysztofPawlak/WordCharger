@@ -10,6 +10,11 @@ public class WordCharger extends Game {
     public static final int V_HEIGHT = 480;
     public static final float PPM = 100;
 
+    public static final short DEFAULT_BIT = 1;
+    public static final short BATTERY_HERO_BIT = 2;
+    public static final short WORDNOTE_BIT = 4;
+    public static final short DESTROYED_BIT = 8;
+
     public SpriteBatch batch;
 
     @Override

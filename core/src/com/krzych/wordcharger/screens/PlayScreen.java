@@ -16,8 +16,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.krzych.wordcharger.Tools.B2WorldCreator;
+import com.krzych.wordcharger.Tools.WorldContactListener;
 import com.krzych.wordcharger.WordCharger;
 import com.krzych.wordcharger.scenes.Hud;
+import com.krzych.wordcharger.sprites.Battery;
 import com.krzych.wordcharger.sprites.BatteryHero;
 
 /**
@@ -42,6 +44,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
 
     private BatteryHero player;
+    private Battery battery;
 
     public PlayScreen(WordCharger game) {
         atlas = new TextureAtlas("battery_enemy.pack");
@@ -55,13 +58,19 @@ public class PlayScreen implements Screen {
 
         maploader = new TmxMapLoader();
         map = maploader.load("untitled.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 0.7f * (1 / WordCharger.PPM)); // TODO
+        renderer = new OrthogonalTiledMapRenderer(map, 0.7f * (1 / WordCharger.PPM));
 
         camera.position.set(view.getWorldWidth() / 2, view.getWorldHeight() / 2, 0);
 
         world = new World(new Vector2(0, -10), true);
 
         player = new BatteryHero(world, atlas);
+
+//        battery = new Battery(atlas);
+//        battery.setOrange();
+
+        world.setContactListener(new WorldContactListener()); // TODO
+
         b2dr = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
@@ -82,6 +91,8 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
+
+//        battery.update(player);
 
         camera.position.x = player.b2dBody.getPosition().x / (1/0.7f);
         camera.position.y = player.b2dBody.getPosition().y / (1/0.7f);
@@ -121,6 +132,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined.scale(0.7f, 0.7f, 0));
         game.batch.begin();
         player.draw(game.batch);
+//        battery.draw(game.batch);
         game.batch.end();
     }
 
