@@ -15,7 +15,7 @@ public class WordCharger extends Game {
     public static final short WORDNOTE_BIT = 4;
     public static final short DESTROYED_BIT = 8;
 
-    public SpriteBatch batch;
+    public static SpriteBatch batch;
 
     @Override
     public void create() {

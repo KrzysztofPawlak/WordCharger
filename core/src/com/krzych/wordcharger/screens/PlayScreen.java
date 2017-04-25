@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.krzych.wordcharger.Tools.B2WorldCreator;
 import com.krzych.wordcharger.Tools.WorldContactListener;
 import com.krzych.wordcharger.WordCharger;
+import com.krzych.wordcharger.scenes.Controller;
 import com.krzych.wordcharger.scenes.Hud;
 import com.krzych.wordcharger.sprites.Battery;
 import com.krzych.wordcharger.sprites.BatteryHero;
@@ -45,6 +46,7 @@ public class PlayScreen implements Screen {
 
     private BatteryHero player;
     private Battery battery;
+    Controller contoller;
 
     public PlayScreen(WordCharger game) {
         atlas = new TextureAtlas("battery_enemy.pack");
@@ -74,6 +76,8 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
+
+        contoller = new Controller(); //TODO
     }
 
     @Override
@@ -103,6 +107,7 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
+        // keyboard
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && player.b2dBody.getLinearVelocity().x <= 2) {
             player.b2dBody.applyLinearImpulse(new Vector2(2f, 0), player.b2dBody.getWorldCenter(), true);
         }
@@ -111,6 +116,17 @@ public class PlayScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             player.b2dBody.applyLinearImpulse(new Vector2(0, 5f), player.b2dBody.getWorldCenter(), true);
+        }
+
+        // screen images
+        if (contoller.isRightPressed() && player.b2dBody.getLinearVelocity().x <= 2) {
+            player.b2dBody.applyLinearImpulse(new Vector2(2f, 0), player.b2dBody.getWorldCenter(), true);
+        }
+        if (contoller.isLeftPressed() && player.b2dBody.getLinearVelocity().x >= -2) {
+            player.b2dBody.applyLinearImpulse(new Vector2(-2f, 0), player.b2dBody.getWorldCenter(), true);
+        }
+        if (contoller.isUpPressed()) {
+            player.b2dBody.applyLinearImpulse(new Vector2(0, 1f), player.b2dBody.getWorldCenter(), true);
         }
     }
 
@@ -122,7 +138,6 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
 
         renderer.render();
         renderer.setView(camera);
@@ -134,11 +149,15 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
 //        battery.draw(game.batch);
         game.batch.end();
+
+        hud.stage.draw();
+        contoller.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         view.update(width, height);
+//        contoller.resize(width, height);
     }
 
     @Override
