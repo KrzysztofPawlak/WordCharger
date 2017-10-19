@@ -20,6 +20,7 @@ import com.krzych.wordcharger.Tools.WorldContactListener;
 import com.krzych.wordcharger.WordCharger;
 import com.krzych.wordcharger.scenes.Controller;
 import com.krzych.wordcharger.scenes.Hud;
+import com.krzych.wordcharger.scenes.Sentence;
 import com.krzych.wordcharger.sprites.Battery;
 import com.krzych.wordcharger.sprites.BatteryHero;
 
@@ -36,6 +37,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport view;
     private Hud hud;
+    private Sentence sentence;
 
     private TmxMapLoader maploader;
     private TiledMap map;
@@ -58,6 +60,7 @@ public class PlayScreen implements Screen {
 
         hud = new Hud(game.batch);
 
+
         maploader = new TmxMapLoader();
         map = maploader.load("untitled.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 0.7f * (1 / WordCharger.PPM));
@@ -78,6 +81,7 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, map);
 
         contoller = new Controller(); //TODO
+        sentence = new Sentence(game.batch);
     }
 
     @Override
@@ -145,6 +149,7 @@ public class PlayScreen implements Screen {
         b2dr.render(world, camera.combined.scale(0.7f, 0.7f, 0));
 
         game.batch.setProjectionMatrix(camera.combined.scale(0.7f, 0.7f, 0));
+
         game.batch.begin();
         player.draw(game.batch);
 //        battery.draw(game.batch);
@@ -152,6 +157,7 @@ public class PlayScreen implements Screen {
 
         hud.stage.draw();
         contoller.draw();
+        sentence.draw();
     }
 
     @Override
@@ -182,5 +188,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+        sentence.dispose();
     }
 }
