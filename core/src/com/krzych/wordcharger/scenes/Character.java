@@ -1,6 +1,7 @@
 package com.krzych.wordcharger.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -14,23 +15,44 @@ public class Character extends Actor {
 
     BitmapFont font;
     int size = 64;
-    String sentence = "我不能再等了";
+    String character;
+    Boolean found;
 
-    public Character() {
+    int x, y;
+
+    public Character(String sendCharacter, Color c, int x, int y) {
+
+        this.x = x;
+        this.y = y;
+
+        found = false;
+        this.character = sendCharacter;
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("DroidSansFallbackFull.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
-        parameter.characters = sentence;
+        parameter.characters = sendCharacter;
 
         font = gen.generateFont(parameter); // font size in pixels
         gen.dispose();
 
-        font.setColor(0.5f,0.4f,0,1);
+        font.setColor(c);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        font.draw(batch, sentence, 300, 450);
+        font.draw(batch, character,  x, y);
+    }
+
+    public void changeColor(Color c) {
+        font.setColor(c);
+    }
+
+    public void changeState(boolean state) {
+        found = state;
+    }
+
+    public Boolean getFound() {
+        return found;
     }
 }
