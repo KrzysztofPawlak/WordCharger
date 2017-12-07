@@ -1,4 +1,5 @@
 # WordCharger - current state
+### goal of this game is to learn chinese language
 ### game is created in LibGDX
 ### blog: http://word-charger.blogspot.com/
 
